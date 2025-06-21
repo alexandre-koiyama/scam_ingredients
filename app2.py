@@ -65,7 +65,7 @@ if img_file:
     with st.spinner("Analyzing image with Gemini..."):
         model = genai.GenerativeModel("gemini-1.5-flash")
         prompt = (
-            "You are an expert at reading product ingredient labels. And you are also an expert at identifying carcinogenic ingredients based on the IARC Monographs."
+            "You are an expert at reading product ingredient labels. And you are also an expert at identifying carcinogenic ingredients based on the IARC Monographs, only in the IARC Monographs."
             "Extract and list all the ingredients you can find in this image. Dont include introduction or presentation."
             "Return only the list of ingredients and the classification of each one. Carcinogenic 🟥, Probably carcinogenic 🟧, Possibly carcinogenic🟨, or Not classifiable or not carcinogenic 🟩. If the group is deferent of Not classifiable, put maximum 10 words of explanation about each ingredient."
             "Return only it using the format: Ingredient | IARC Classification | Explanation"
