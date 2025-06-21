@@ -86,9 +86,9 @@ if img_file:
     with st.spinner("Analyzing image with Gemini..."):
         model = genai.GenerativeModel("gemini-1.5-flash")
         prompt = (
-            "You are an expert at reading product ingredient labels."
+            "You are an expert at reading product ingredient labels. And you are also an expert at identifying carcinogenic ingredients based on the IARC Monographs."
             "Extract and list all the ingredients you can find in this image."
-            "Only return the list of ingredients, nothing else. And transform it to english."
+            "Only return the list of ingredients and if it is Carcinogenic 🟥, Probably carcinogenic 🟧, Possibly carcinogenic🟨, or Not classifiable or not carcinogenic 🟩"
         )
         response = model.generate_content([
             prompt,
@@ -97,14 +97,18 @@ if img_file:
                 "data": img_bytes
             }
         ])
-        st.markdown(response.text)
+        st.subheader("Ingredients Detected:")
+        for i in response.text.splitlines():
+            if i.strip():
+                st.markdown(f"- {i.strip()}")
+        #st.markdown(response.text)
+        #
+        #list_ingredients = str(response.text).split(",")
+        #list_ingredients = [ing.strip() for ing in list_ingredients if ing.strip()]
 
-        list_ingredients = str(response.text).split(",")
-        list_ingredients = [ing.strip() for ing in list_ingredients if ing.strip()]
-
-        df_ingredients = pd.DataFrame(check_ingredients(list_ingredients))
-        st.markdown("It shows the ingredients detected, matched carcinogens (if any), and their risk group.")
-        df_ingredients["iarc_flag"] = df_ingredients["group"].apply(get_iarc_flag)
-        st.dataframe(df_ingredients, use_container_width=True)
+        #df_ingredients = pd.DataFrame(check_ingredients(list_ingredients))
+        #st.markdown("It shows the ingredients detected, matched carcinogens (if any), and their risk group.")
+        #df_ingredients["iarc_flag"] = df_ingredients["group"].apply(get_iarc_flag)
+        #st.dataframe(df_ingredients, use_container_width=True)
 
 
