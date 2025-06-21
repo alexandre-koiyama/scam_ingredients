@@ -42,7 +42,7 @@ def get_iarc_flag(group):
 GOOGLE_API_KEY = 'AIzaSyDfVvmvcwmBiQM5qBd3D2G1VjeGnUEzB5Y'#st.secrets["GOOGLE_API_KEY"]
 genai.configure(api_key=GOOGLE_API_KEY)
 
-st.title("🧪 Ingredient Detector with Gemini 1.5 Flash")
+st.title("Detection of carcinogenic ingredients")
 
 st.subheader("How would you like to provide an image?")
 
@@ -88,7 +88,7 @@ if img_file:
         prompt = (
             "You are an expert at reading product ingredient labels. And you are also an expert at identifying carcinogenic ingredients based on the IARC Monographs."
             "Extract and list all the ingredients you can find in this image."
-            "Only return the list of ingredients and if it is Carcinogenic 🟥, Probably carcinogenic 🟧, Possibly carcinogenic🟨, or Not classifiable or not carcinogenic 🟩"
+            "Return only the list of ingredients and the classification of each one. Carcinogenic 🟥, Probably carcinogenic 🟧, Possibly carcinogenic🟨, or Not classifiable or not carcinogenic 🟩"
         )
         response = model.generate_content([
             prompt,
