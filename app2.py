@@ -5,26 +5,6 @@ import io
 import pandas as pd
 from fuzzywuzzy import fuzz, process
 
-df = pd.read_csv('List of Classifications – IARC Monographs on the Identification of Carcinogenic Hazards to Humans.csv')
-
-def find_group_for_ingredient(ingredient, threshold=80):
-    agents = df["Agent"].dropna().unique()
-    match, score = process.extractOne(ingredient, agents, scorer=fuzz.token_set_ratio)
-    if score >= threshold:
-        group = df[df["Agent"] == match]["Group"].values[0]
-        return match, group, score
-    else:
-        return None, None, score
-
-def check_ingredients(ingredients, threshold=80):
-    results = []
-    for ing in ingredients:
-        agent, group, score = find_group_for_ingredient(ing, threshold)
-        if agent:
-            results.append({"ingredient": ing, "matched_agent": agent, "group": group})
-        else:
-            results.append({"ingredient": ing, "matched_agent": None, "group": None})
-    return results
 
 def get_iarc_flag(group):
     group = str(group).strip().upper()
@@ -38,16 +18,11 @@ def get_iarc_flag(group):
         return "🟩 Group 3 or Other (Not classifiable or not carcinogenic)"
 
 
-
 GOOGLE_API_KEY = 'AIzaSyDfVvmvcwmBiQM5qBd3D2G1VjeGnUEzB5Y'#st.secrets["GOOGLE_API_KEY"]
 genai.configure(api_key=GOOGLE_API_KEY)
 
 st.title("Detection of carcinogenic ingredients")
-<<<<<<< HEAD
-
-=======
-st.subheader("First, provide an image of the Ingredients of the product")
->>>>>>> 1c28c704338ebb0e2d77a797d9f8526b3ca02fcd
+st.subheader("First, give an image of the ingredient label.")
 st.subheader("How would you like to provide an image?")
 
 col1, col2 = st.columns(2)
@@ -91,8 +66,9 @@ if img_file:
         model = genai.GenerativeModel("gemini-1.5-flash")
         prompt = (
             "You are an expert at reading product ingredient labels. And you are also an expert at identifying carcinogenic ingredients based on the IARC Monographs."
-            "Extract and list all the ingredients you can find in this image."
-            "Return only the list of ingredients and the classification of each one. Carcinogenic 🟥, Probably carcinogenic 🟧, Possibly carcinogenic🟨, or Not classifiable or not carcinogenic 🟩"
+            "Extract and list all the ingredients you can find in this image. Dont include introduction or presentation."
+            "Return only the list of ingredients and the classification of each one. Carcinogenic 🟥, Probably carcinogenic 🟧, Possibly carcinogenic🟨, or Not classifiable or not carcinogenic 🟩. If the group is deferent of Not classifiable, put maximum 10 words of explanation about each ingredient."
+            "Return only it using the format: Ingredient | IARC Classification | Explanation"
         )
         response = model.generate_content([
             prompt,
@@ -105,17 +81,3 @@ if img_file:
         for i in response.text.splitlines():
             if i.strip():
                 st.markdown(f"- {i.strip()}")
-<<<<<<< HEAD
-        #st.markdown(response.text)
-        #
-        #list_ingredients = str(response.text).split(",")
-        #list_ingredients = [ing.strip() for ing in list_ingredients if ing.strip()]
-
-        #df_ingredients = pd.DataFrame(check_ingredients(list_ingredients))
-        #st.markdown("It shows the ingredients detected, matched carcinogens (if any), and their risk group.")
-        #df_ingredients["iarc_flag"] = df_ingredients["group"].apply(get_iarc_flag)
-        #st.dataframe(df_ingredients, use_container_width=True)
-
-
-=======
->>>>>>> 1c28c704338ebb0e2d77a797d9f8526b3ca02fcd
