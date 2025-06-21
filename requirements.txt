@@ -84,4 +84,8 @@ typing_extensions==4.14.0
 tzdata==2025.2
 uritemplate==4.2.0
 urllib3==2.5.0
+<<<<<<< HEAD
 wcwidth==0.2.13
+=======
+wcwidth==0.2.13
+>>>>>>> 1c28c704338ebb0e2d77a797d9f8526b3ca02fcd

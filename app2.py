@@ -43,7 +43,11 @@ GOOGLE_API_KEY = 'AIzaSyDfVvmvcwmBiQM5qBd3D2G1VjeGnUEzB5Y'#st.secrets["GOOGLE_AP
 genai.configure(api_key=GOOGLE_API_KEY)
 
 st.title("Detection of carcinogenic ingredients")
+<<<<<<< HEAD
 
+=======
+st.subheader("First, provide an image of the Ingredients of the product")
+>>>>>>> 1c28c704338ebb0e2d77a797d9f8526b3ca02fcd
 st.subheader("How would you like to provide an image?")
 
 col1, col2 = st.columns(2)
@@ -101,6 +105,7 @@ if img_file:
         for i in response.text.splitlines():
             if i.strip():
                 st.markdown(f"- {i.strip()}")
+<<<<<<< HEAD
         #st.markdown(response.text)
         #
         #list_ingredients = str(response.text).split(",")
@@ -112,3 +117,5 @@ if img_file:
         #st.dataframe(df_ingredients, use_container_width=True)
 
 
+=======
+>>>>>>> 1c28c704338ebb0e2d77a797d9f8526b3ca02fcd
