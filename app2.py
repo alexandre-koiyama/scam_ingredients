@@ -43,7 +43,7 @@ GOOGLE_API_KEY = 'AIzaSyDfVvmvcwmBiQM5qBd3D2G1VjeGnUEzB5Y'#st.secrets["GOOGLE_AP
 genai.configure(api_key=GOOGLE_API_KEY)
 
 st.title("Detection of carcinogenic ingredients")
-st.subheader("First, provide an image of the Ingrediets of the product")
+st.subheader("First, provide an image of the Ingredients of the product")
 st.subheader("How would you like to provide an image?")
 
 col1, col2 = st.columns(2)
