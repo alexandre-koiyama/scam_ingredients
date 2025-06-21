@@ -44,6 +44,18 @@ input_method = st.session_state.input_method
 img_file = None
 if input_method == "Camera":
     st.info("Use your device camera to take a picture of the ingredient label.")
+    st.markdown(
+    """
+    <style>
+    [data-testid="stCameraInput"] video {
+        width: 100% !important;
+        height: auto !important;
+        border-radius: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
     img_file = st.camera_input(
         "Take a picture", label_visibility="collapsed",
         width="stretch"  
