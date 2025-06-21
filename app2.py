@@ -3,33 +3,19 @@ import google.generativeai as genai
 from PIL import Image
 import io
 import pandas as pd
-from fuzzywuzzy import fuzz, process
-
-
-def get_iarc_flag(group):
-    group = str(group).strip().upper()
-    if group == "1":
-        return "🟥 Group 1 (Carcinogenic to humans)"
-    elif group == "2A":
-        return "🟧 Group 2A (Probably carcinogenic to humans)"
-    elif group == "2B":
-        return "🟨 Group 2B (Possibly carcinogenic to humans)"
-    else:
-        return "🟩 Group 3 or Other (Not classifiable or not carcinogenic)"
 
 
 GOOGLE_API_KEY = 'AIzaSyDfVvmvcwmBiQM5qBd3D2G1VjeGnUEzB5Y'#st.secrets["GOOGLE_API_KEY"]
 genai.configure(api_key=GOOGLE_API_KEY)
+cola, colb, colc = st.columns([1, 2, 1])
+with colb:
+    st.title("Carcinogenic detection")
 
-st.title("Detection of carcinogenic ingredients")
-st.subheader("First, give an image of the ingredient label.")
-st.subheader("How would you like to provide an image?")
-
-col1, col2 = st.columns(2)
-with col1:
-    camera_selected = st.button("📷 Camera", key="camera_btn")
+col1, col2, col3 = st.columns([1, 2, 1]) 
 with col2:
-    upload_selected = st.button("🖼️ Upload", key="upload_btn")
+    st.markdown("##### How would you like to provide an image of the product label?")  # Optional title
+    camera_selected = st.button("📷Use camera", key="camera_btn")
+    upload_selected = st.button("🖼️ Upload Picture", key="upload_btn")
 
 if "input_method" not in st.session_state:
     st.session_state.input_method = None
